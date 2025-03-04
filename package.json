@@ -9,8 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@apollo/client": "^3.13.1",
     "@apollo/server": "^4.11.3",
     "@as-integrations/next": "^3.2.0",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@fontsource/roboto": "^5.2.5",
+    "@mui/icons-material": "^6.4.6",
+    "@mui/material": "^6.4.6",
     "@sequelize/postgres": "^7.0.0-alpha.45",
     "dotenv": "^16.4.7",
     "next": "15.2.0",

@@ -1,11 +1,11 @@
 import ClientOnly from "@/components/ClientOnly";
-import Books from "@/components/AllBooks";
+import BooksGrid from "@/components/AllBooks";
 
-export default function Home() {
+export default function Authors() {
   return (
     <div style={{padding: "25px"}}>
       <ClientOnly>
-          <Books />
+          <BooksGrid />
       </ClientOnly>
     </div>
   );
