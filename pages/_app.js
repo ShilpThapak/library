@@ -6,15 +6,21 @@ import '@fontsource/roboto/700.css';
 import { ApolloProvider } from "@apollo/client";
 import createApolloClient from "@/apollo-client";
 
-// export default function App({ Component, pageProps }) {
-//   return <Component {...pageProps} />;
-// }
+import { ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import theme from '@/theme';
 
 const client = createApolloClient();
 export default function MyApp({ Component, pageProps }) {
+  console.log(theme)
   return (
-    <ApolloProvider client={client}>
-      <Component {...pageProps} />
-    </ApolloProvider>
+      <ApolloProvider client={client}>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <Component {...pageProps} />
+        </ThemeProvider>
+      </ApolloProvider>
+    
+    
   );
 }

@@ -11,6 +11,7 @@ import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import Link from 'next/link'
+import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 
 const pages = ['Books', 'Authors'];
 
@@ -25,10 +26,10 @@ function ResponsiveAppBar() {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" style={{backgroundColor: '#000000'}}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+          <AutoStoriesIcon sx={{ display: { xs: 'none', md: 'block', lg: 'block' }, mr: 1 }} />
           <Typography
             variant="h6"
             noWrap
@@ -36,10 +37,10 @@ function ResponsiveAppBar() {
             href="/"
             sx={{
               mr: 2,
-              display: { xs: 'none', md: 'flex' },
+              display: { xs: 'none', md: 'none', lg: 'block' },
               fontFamily: 'monospace',
               fontWeight: 700,
-              letterSpacing: '.3rem',
+              letterSpacing: '.1rem',
               color: 'inherit',
               textDecoration: 'none',
             }}
@@ -73,11 +74,12 @@ function ResponsiveAppBar() {
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               sx={{ display: { xs: 'block', md: 'none' } }}
+              style={{textDecoration: "none"}}
             >
               {pages.map((page) => (
-                <Link key={page} href={`/${page.toLowerCase()}`} passHref>
-                  <MenuItem key={page} onClick={handleCloseNavMenu}>
-                      <Typography sx={{ textAlign: 'center' }}>{page}</Typography>
+                <Link key={page} href={`/${page.toLowerCase()}`} passHref >
+                  <MenuItem key={page} onClick={handleCloseNavMenu} >
+                      <Typography sx={{ textAlign: 'center' }} >{page}</Typography>
                   </MenuItem>
                 </Link>
               ))}

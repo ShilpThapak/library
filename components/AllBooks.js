@@ -1,6 +1,5 @@
 import { useQuery, gql } from "@apollo/client";
 import styles from "../styles/Home.module.css";
-import BasicCard from "./BasicCard"
 import ResponsiveGrid from "./ResponsiveGrid";
 
 const QUERY = gql`
