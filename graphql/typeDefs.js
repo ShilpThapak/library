@@ -33,6 +33,8 @@ export const typeDefs = `#graphql
     editBook(id: ID!, edits: EditBookInput): Book
 
     addAuthor(author: AddAuthorInput!): Author
+    deleteAuthor(id: ID!): String
+    editAuthor(id: ID!, edits: EditAuthorInput): Author
     }
 
     input AddBookInput {
@@ -50,6 +52,12 @@ export const typeDefs = `#graphql
     }
 
     input AddAuthorInput {
+    name: String!
+    biography: String!
+    born_date: String!
+    }
+
+    input EditAuthorInput {
     name: String!
     biography: String!
     born_date: String!

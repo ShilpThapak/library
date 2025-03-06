@@ -1,6 +1,7 @@
 import { TextField, FormControl, InputLabel, Select, MenuItem, Typography, Button } from "@mui/material"
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import { useQuery, gql, useMutation } from "@apollo/client";
+import { useRouter } from 'next/router'
 
 const GET_AUTHORS_QUERY = gql`
       query Authors {
@@ -11,33 +12,71 @@ const GET_AUTHORS_QUERY = gql`
     }
 `;
 
-const ADD_BOOK_MUTATION = gql`
-    mutation Mutation($book: AddBookInput!) {
-        addBook(book: $book) {
+const GET_BOOK_QUERY = gql`
+    query Book($bookId: ID!) {
+        book(id: $bookId) {
+            id
+            title
+            description
+            author {
+                id
+                name
+            }
+            published_date
+        }
+    }
+`
+
+const EDIT_BOOK_MUTATION = gql`
+    mutation EditBook($editBookId: ID!, $edits: EditBookInput) {
+        editBook(id: $editBookId, edits: $edits) {
             title
         }
     }
 `;
 
-export default function CreateBookForm() {
+export default function EditBookForm() {
 
     const { data: authorsData, loading: authorsLoading, error: authorsError } = useQuery(GET_AUTHORS_QUERY);
-    const [addBook, 
-        { data: addBookData, loading: addBookLoading, error: addBookError }
-    ] = useMutation(ADD_BOOK_MUTATION);
+    const [editBook, 
+        { data: editBookData, loading: editBookLoading, error: editBookError }
+    ] = useMutation(EDIT_BOOK_MUTATION);
+    
 
+    const router = useRouter()
+    const bookID = router.query.slug
+    const { data: bookData, loading: bookLoading, error: bookError } = useQuery(GET_BOOK_QUERY, {variables: {"bookId": bookID}});
+
+    // if (bookLoading) {
+    //     return <h2>Loading...</h2>;     
+    // }
+
+    // if (bookError) {
+    //     console.error(error);
+    //     return <h2>An unexpected error occurred. {bookError}</h2>;
+    // }
 
     const [title, setTitle] = useState("")
     const [description, setDescription] = useState("")
     const [author, setAuthor] = useState("")
     const [publishDate, setPublishDate] = useState("")
 
-    const createBook = (e) => {
+    useEffect(() => {
+        if (bookData?.book) {
+            setTitle(bookData.book.title);
+            setDescription(bookData.book.description);
+            setAuthor(bookData.book.author.id);
+            setPublishDate(bookData.book.published_date);
+        }
+    }, [bookData]);
+
+    const editBookHandler = (e) => {
         e.preventDefault()
         console.log(title, description, author, publishDate, authorsData)
-        addBook({
+        editBook({
             variables: {
-                "book": {
+                "editBookId": bookID,
+                "edits": {
                     "author_id": parseInt(author),
                     "description": description,
                     "published_date": publishDate,
@@ -45,6 +84,9 @@ export default function CreateBookForm() {
                 }  
             }
         })
+        if (editBookError) {
+            console.log(editBookError)
+        }
     }
 
     if (authorsLoading) {
@@ -52,13 +94,13 @@ export default function CreateBookForm() {
     }
 
     if (authorsError) {
-        console.error(error);
+        console.log(error);
         return <h2>An unexpected error occurred. {error}</h2>;
     }
 
-    return <form onSubmit={createBook}>
+    return <form onSubmit={editBookHandler}>
         <Typography variant="h6" >
-            Create a new Book:
+            Edit/Delete this Book:
         </Typography>
 
         <br></br>
@@ -124,7 +166,7 @@ export default function CreateBookForm() {
         <br></br>
         <br></br>
 
-        <Button type="submit" variant="contained" >Create</Button>
+        <Button type="submit" variant="contained">Edit</Button>
     </form>
     
 }

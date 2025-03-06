@@ -1,15 +1,13 @@
 import { useRouter } from 'next/router'
-import SingleBookPage from '@/components/SingleBookPage'
+import SingleAuthorPage from '@/components/SingleAuthorPage'
 import ClientOnly from "@/components/ClientOnly";
  
 export default function Page() {
   const router = useRouter()
-  const bookID = router.query.slug
+  const authorId = router.query.slug
   return (<>
-      {/* <p>Book ID: {router.query.slug}</p> */}
-
       <ClientOnly>
-        <SingleBookPage bookID={bookID}/>
+        <SingleAuthorPage authorId={authorId}/>
       </ClientOnly>
     </>
   )

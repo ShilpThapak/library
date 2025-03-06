@@ -49,9 +49,17 @@ export const resolvers = {
         let author = {
           ...args.author,
         }
-        console.log(author)
         const newAuthor = await Author.create(author);
         return Author.findByPk(newAuthor.id);
+      },
+      deleteAuthor: async(_, arg) => {
+        await Author.destroy({where: {id: arg.id}})
+        return "Deleted Author ID:" + arg.id
+      },
+      editAuthor: async(_, args) => {
+        let author = await Author.findByPk(args.id)
+        await author.update(args.edits)
+        return await author.save()
       },
     }
   };

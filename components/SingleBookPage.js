@@ -1,18 +1,24 @@
 import { useQuery, gql } from "@apollo/client";
 import styles from "../styles/Home.module.css";
 import ResponsiveGrid from "./ResponsiveGrid";
+import BasicBreadcrumbs from "@/components/BasicBreadcrumbs";
+import SingleBookDescription from "./SingleBookDescription";
+import ReviewsList from "@/components/ReviewsList"
 
 const QUERY = gql`
     query Book($bookId: ID!) {
         book(id: $bookId) {
             id
             title
+            description
+            author {
+                name
+            }
         }
     }
 `;
 
 export default function SingleBookPage({bookID}) {
-    console.log(bookID, typeof(bookID))
   const { data, loading, error } = useQuery(QUERY, {variables: {"bookId": bookID}});
 
   if (loading) {
@@ -24,13 +30,13 @@ export default function SingleBookPage({bookID}) {
     return <>{error.message}</>;
   }
 
-  const books = data.books;
-
+  const books = data.book;
   return (
     <div className={styles.grid}>
-      {/* <ResponsiveGrid gridArray={books} itemType="book"/> */}
-      {data.book.id}
-      {data? data.book.title: ""}
+        <BasicBreadcrumbs parentPathName={"Books"} parentPath={"/books"} childPathName={data.book.title}/>
+        <br></br>
+        <SingleBookDescription bookInfo={books}/>
+        <ReviewsList bookID={bookID}/>
     </div>
   );
 }

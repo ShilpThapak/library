@@ -1,6 +1,6 @@
 import { TextField, FormControl, InputLabel, Select, MenuItem, Typography, Button } from "@mui/material"
 import {useState} from 'react'
-import { useQuery, gql, useMutation } from "@apollo/client";
+import { gql, useMutation } from "@apollo/client";
 
 const ADD_AUTHOR_MUTATION = gql`
     mutation AddAuthor($author: AddAuthorInput!) {
