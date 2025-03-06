@@ -1,33 +1,41 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
+import Link from 'next/link';
 import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
+import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import Link from 'next/link'
+import CardActionArea from '@mui/material/CardActionArea';
 
-
-export default function BasicCardAuthors({gridItem}) {
-  const path = `/authors/${gridItem.id}`
+export default function BasicCardAuthors({ gridItem }) {
   return (
-    <Link href={path}>
-      <Card sx={{ minWidth: 275 }} variant="outlined">
-        <CardContent>
-          <Typography gutterBottom sx={{ color: 'text.secondary', fontSize: 14 }}>
-            Author
-          </Typography>
-          <Typography variant="h5" component="div">
-            {gridItem.name}
-          </Typography>
-          <Typography variant="body2">
-            {gridItem.biography}
-            <br />
-          </Typography>
-        </CardContent>
-        <CardActions>
-          <Button size="small">Learn More</Button>
-        </CardActions>
+    <Link href={`/authors/${gridItem.id}`} passHref style={{ textDecoration: 'none' }}>
+      <Card sx={{ maxWidth: 345, cursor: 'pointer' }}>
+        <CardActionArea>
+          <CardMedia
+            component="img"
+            height="140"
+            image="https://platform.polygon.com/wp-content/uploads/sites/2/2024/09/04-037.wizard-leomund.png"
+            alt="Book Cover"
+          />
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="div" noWrap>
+              {gridItem.name}
+            </Typography>
+            <Typography
+              variant="body2"
+              sx={{
+                color: 'text.secondary',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                display: '-webkit-box',
+                WebkitLineClamp: 2, // Limits text to 2 lines
+                WebkitBoxOrient: 'vertical',
+              }}
+            >
+              {gridItem.biography}
+            </Typography>
+          </CardContent>
+        </CardActionArea>
       </Card>
     </Link>
   );

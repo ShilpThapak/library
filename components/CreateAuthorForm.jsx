@@ -10,7 +10,7 @@ const ADD_AUTHOR_MUTATION = gql`
     }
 `;
 
-export default function CreateBookForm() {
+export default function CreateAuthorForm() {
     const [addTodo, { data, loading, error }] = useMutation(ADD_AUTHOR_MUTATION);
 
     const [name, setName] = useState("")

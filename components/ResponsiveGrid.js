@@ -17,16 +17,27 @@ const Item = styled(Paper)(({ theme }) => ({
   }),
 }));
 
-export default function ResponsiveGrid({gridArray, itemType}) {
+export default function ResponsiveGrid({ gridArray, itemType }) {
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+    <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
+      <Grid
+        container
+        spacing={2}
+        columns={{ xs: 4, sm: 8, md: 12 }}
+        justifyContent="flex-start" // Keeps proper alignment
+      >
         {gridArray.map((gridItem, index) => (
-          <Grid key={index} size={{ xs: 2, sm: 4, md: 4 }}>
-            {itemType == 'book'? 
-              <BasicCardBooks gridItem={gridItem}/>
-              : 
-              <BasicCardAuthors gridItem={gridItem}/>
+          <Grid
+            item
+            key={index}
+            xs={4}
+            sm={4}
+            md={3}
+            sx={{ display: 'flex', justifyContent: 'center' }} // Ensures items are centered in their columns
+          >
+            {itemType === 'book' ? 
+              <BasicCardBooks gridItem={gridItem} /> : 
+              <BasicCardAuthors gridItem={gridItem} />
             }
           </Grid>
         ))}

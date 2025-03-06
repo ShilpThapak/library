@@ -41,7 +41,7 @@ export default function SingleAuthorDescription({authorInfo}) {
         {/* Book Image */}
         <CardMedia
           component="img"
-          image="/hp_cover.png" // Replace with actual book image URL
+          image="https://platform.polygon.com/wp-content/uploads/sites/2/2024/09/04-037.wizard-leomund.png" // Replace with actual book image URL
           alt="Book Cover"
           sx={{ 
             width: "100%", 

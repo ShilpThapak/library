@@ -38,7 +38,7 @@ export default function SingleBookDescription({bookInfo}) {
         {/* Book Image */}
         <CardMedia
           component="img"
-          image="/hp_cover.png" // Replace with actual book image URL
+          image="https://d28hgpri8am2if.cloudfront.net/book_images/onix/cvr9781683834588/harry-potter-hogwarts-school-of-witchcraft-and-wizardry-tiny-book-9781683834588_hr.jpg" // Replace with actual book image URL
           alt="Book Cover"
           sx={{ 
             width: "100%", 
