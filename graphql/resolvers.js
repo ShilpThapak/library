@@ -44,6 +44,14 @@ export const resolvers = {
         let book = await Book.findByPk(args.id)
         await book.update(args.edits)
         return await book.save()
-      }
+      },
+      addAuthor: async (_, args) => {
+        let author = {
+          ...args.author,
+        }
+        console.log(author)
+        const newAuthor = await Author.create(author);
+        return Author.findByPk(newAuthor.id);
+      },
     }
   };

@@ -9,15 +9,15 @@ import createApolloClient from "@/apollo-client";
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import theme from '@/theme';
+import { Padding } from "@mui/icons-material";
 
 const client = createApolloClient();
 export default function MyApp({ Component, pageProps }) {
-  console.log(theme)
   return (
       <ApolloProvider client={client}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <Component {...pageProps} />
+          <Component {...pageProps} style={{padding: "25px"}}/>
         </ThemeProvider>
       </ApolloProvider>
     

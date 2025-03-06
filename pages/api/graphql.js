@@ -8,8 +8,20 @@ import Book from "@/models/book"
 import Author from "@/models/author"
 
 
-Author.hasMany(Book, { foreignKey: 'author_id' });
-Book.belongsTo(Author, { foreignKey: 'author_id' });
+// Author.hasMany(Book, 
+//     { 
+//         foreignKey: 'author_id',
+//         onDelete: 'CASCADE',  
+//         onUpdate: 'CASCADE'
+//      }
+// );
+// Book.belongsTo(Author, 
+//     { 
+//         foreignKey: 'author_id',
+//         onDelete: 'CASCADE',  
+//         onUpdate: 'CASCADE'
+//     }
+// );
 
 // await sequelize.sync({ force: true });
 

@@ -14,6 +14,7 @@ export const typeDefs = `#graphql
     id: ID!
     name: String!
     biography: String!
+    born_date: String!
     createdAt: String!
     updatedAt: String!
     books: [Book!]
@@ -30,6 +31,8 @@ export const typeDefs = `#graphql
     addBook(book: AddBookInput!): Book
     deleteBook(id: ID!): String
     editBook(id: ID!, edits: EditBookInput): Book
+
+    addAuthor(author: AddAuthorInput!): Author
     }
 
     input AddBookInput {
@@ -44,5 +47,11 @@ export const typeDefs = `#graphql
     description: String
     published_date: String
     author_id: Int
+    }
+
+    input AddAuthorInput {
+    name: String!
+    biography: String!
+    born_date: String!
     }
 `;

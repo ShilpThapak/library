@@ -1,5 +1,5 @@
 import ClientOnly from "@/components/ClientOnly";
-import BooksGrid from "@/components/AllBooks";
+import AllBooks from "@/components/AllBooks";
 import { Button, Stack, Typography } from "@mui/material";
 // import Button from "@mui/material";
 import BasicModal from "@/components/BasicModal";
@@ -7,7 +7,7 @@ import CreateBookForm from "@/components/CreateBookForm"
 
 export default function Books() {
   return (
-    <div style={{padding: "25px"}}>
+    <>
         <Stack
             direction="row"
             spacing={2}
@@ -25,9 +25,9 @@ export default function Books() {
         <br></br>
 
         <ClientOnly>
-            <BooksGrid />
+            <AllBooks />
         </ClientOnly>
       
-     </div>
+    </>
   );
 }

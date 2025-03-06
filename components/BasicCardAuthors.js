@@ -7,21 +7,19 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
 
-export default function BasicCard({bookItem}) {
+export default function BasicCardAuthors({gridItem}) {
   return (
     <Card sx={{ minWidth: 275 }} variant="outlined">
       <CardContent>
         <Typography gutterBottom sx={{ color: 'text.secondary', fontSize: 14 }}>
-          Book
+          Author
         </Typography>
         <Typography variant="h5" component="div">
-          {bookItem.title}
+          {gridItem.name}
         </Typography>
-        <Typography sx={{ color: 'text.secondary', mb: 1.5 }}>By {bookItem.author.name}</Typography>
         <Typography variant="body2">
-          {bookItem.description}
+          {gridItem.biography}
           <br />
-          {/* {bookItem.published_date} */}
         </Typography>
       </CardContent>
       <CardActions>

@@ -1,22 +1,18 @@
 import { useQuery, gql } from "@apollo/client";
 import styles from "../styles/Home.module.css";
-import ResponsiveGrid from "./ResponsiveGrid";
+import ResponsiveGridBooks from "./ResponsiveGrid";
 
 const QUERY = gql`
-  query Books {
-    books{
-      id
-      title
-      description
-      published_date
-      author {
+  query Authors {
+    authors {
+        id
         name
-      }
+        biography
     }
-  }
+}
 `;
 
-export default function AllBooks() {
+export default function AllAuthors() {
   const { data, loading, error } = useQuery(QUERY);
 
   if (loading) {
@@ -28,9 +24,11 @@ export default function AllBooks() {
     return null;
   }
 
+//   const books = data.books;
+
   return (
     <div className={styles.grid}>
-      <ResponsiveGrid gridArray={data.books} itemType="book"/>
+      <ResponsiveGridBooks gridArray={data.authors}/>
     </div>
   );
 }
