@@ -2,6 +2,7 @@ import { Box, Card, CardContent, CardMedia, Typography, Button } from "@mui/mate
 import BasicModal from "@/components/BasicModal"
 import EditBookForm from "@/components/EditBookForm"
 import { useQuery, gql, useMutation } from "@apollo/client";
+import { useRouter } from "next/router";
 
 const DELETE_MUTATION_QUERY = gql`
     mutation DeleteBook($deleteBookId: ID!) {
@@ -9,9 +10,10 @@ const DELETE_MUTATION_QUERY = gql`
 }`
 
 export default function SingleBookDescription({bookInfo}) {
+    const router = useRouter()
     const [deleteBook, 
             { data: deleteBookData, loading: deleteBookLoading, error: deleteBookError }
-        ] = useMutation(DELETE_MUTATION_QUERY);
+        ] = useMutation(DELETE_MUTATION_QUERY, {onCompleted: () => {router.push("/books")}});
 
     function deleteBookHandler(e){
         e.preventDefault();

@@ -40,7 +40,7 @@ export default function EditBookForm() {
     const { data: authorsData, loading: authorsLoading, error: authorsError } = useQuery(GET_AUTHORS_QUERY);
     const [editBook, 
         { data: editBookData, loading: editBookLoading, error: editBookError }
-    ] = useMutation(EDIT_BOOK_MUTATION);
+    ] = useMutation(EDIT_BOOK_MUTATION, {onCompleted: () => {window.location.reload()}});
     
 
     const router = useRouter()
@@ -72,7 +72,6 @@ export default function EditBookForm() {
 
     const editBookHandler = (e) => {
         e.preventDefault()
-        console.log(title, description, author, publishDate, authorsData)
         editBook({
             variables: {
                 "editBookId": bookID,

@@ -11,7 +11,7 @@ const ADD_AUTHOR_MUTATION = gql`
 `;
 
 export default function CreateAuthorForm() {
-    const [addTodo, { data, loading, error }] = useMutation(ADD_AUTHOR_MUTATION);
+    const [addAuthor, { loading, error }] = useMutation(ADD_AUTHOR_MUTATION, {onCompleted: () => {window.location.reload()}});
 
     const [name, setName] = useState("")
     const [bio, setBio] = useState("")
@@ -20,7 +20,7 @@ export default function CreateAuthorForm() {
     function createAuthor(e){
         e.preventDefault();
         try {
-            addTodo({
+            addAuthor({
                 variables: {
                     author : {"name": name, "biography": bio, "born_date": bornDate}
                 }

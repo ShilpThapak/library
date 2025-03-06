@@ -26,7 +26,7 @@ export default function EditAuthorForm() {
 
     const [editAuthor, 
         { data: editAuthorData, loading: editAuthorLoading, error: editAuthorError }
-    ] = useMutation(EDIT_AUTHOR_MUTATION);
+    ] = useMutation(EDIT_AUTHOR_MUTATION, {onCompleted: () => {window.location.reload()}});
     
 
     const router = useRouter()

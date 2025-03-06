@@ -24,7 +24,7 @@ export default function CreateBookForm() {
     const { data: authorsData, loading: authorsLoading, error: authorsError } = useQuery(GET_AUTHORS_QUERY);
     const [addBook, 
         { data: addBookData, loading: addBookLoading, error: addBookError }
-    ] = useMutation(ADD_BOOK_MUTATION);
+    ] = useMutation(ADD_BOOK_MUTATION, {onCompleted: () => {window.location.reload()}});
 
 
     const [title, setTitle] = useState("")

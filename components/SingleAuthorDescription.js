@@ -2,6 +2,7 @@ import { Box, Card, CardContent, CardMedia, Typography, Button } from "@mui/mate
 import BasicModal from "@/components/BasicModal"
 import EditAuthorForm from "@/components/EditAuthorForm"
 import { useQuery, gql, useMutation } from "@apollo/client";
+import { useRouter } from "next/router";
 
 const DELETE_MUTATION_QUERY = gql`
     mutation DeleteAuthor($deleteAuthorId: ID!) {
@@ -9,10 +10,10 @@ const DELETE_MUTATION_QUERY = gql`
 }`
 
 export default function SingleAuthorDescription({authorInfo}) {
-
+    const router = useRouter()
     const [deleteAuthor, 
                 { data: deleteAuthorData, loading: deleteAuthorLoading, error: deleteAuthorError }
-            ] = useMutation(DELETE_MUTATION_QUERY);
+            ] = useMutation(DELETE_MUTATION_QUERY, {onCompleted: () => {router.push("/authors")}});
     
     function deleteAuthorHandler(e){
         e.preventDefault();
