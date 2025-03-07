@@ -5,8 +5,10 @@ import { useQuery, gql, useMutation } from "@apollo/client";
 const GET_AUTHORS_QUERY = gql`
       query Authors {
         authors {
-            id
-            name
+            authors {
+                id
+                name
+            }
         }
     }
 `;
@@ -86,7 +88,7 @@ export default function CreateBookForm() {
                     (e) => setAuthor(e.target.value)
                 }
             >
-                {authorsData ? authorsData.authors.map((i) => <MenuItem key={i.id} value={i.id}>{i.name}</MenuItem>):<MenuItem value={0}>Null</MenuItem>}
+                {authorsData ? authorsData.authors.authors.map((i) => <MenuItem key={i.id} value={i.id}>{i.name}</MenuItem>):<MenuItem value={0}>Null</MenuItem>}
                 {/* <MenuItem value={1}>JK Rowling</MenuItem>
                 <MenuItem value={2}>Jane Austine</MenuItem>
                 <MenuItem value={3}>RR Martin 1</MenuItem>

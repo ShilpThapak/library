@@ -1,52 +1,35 @@
-import { useState, useEffect } from "react";
-import { TextField, InputAdornment, CircularProgress } from "@mui/material";
+import { TextField, InputAdornment } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import { gql, useQuery } from "@apollo/client";
+import { useRef, useEffect } from "react";
 
-const SEARCH_BOOKS_QUERY = gql`
-  query Books($filter: String) {
-    books(filter: $filter) {
-        id
-        title
-        description
-        published_date
-        author {
-            name
-        }
-    }
-    }
-`;
+export default function SearchBarBooks({ value, onSearch }) {
+  const inputRef = useRef(null);
 
-export default function SearchBarBooks({ onResults, allBooks }) {
-  const [query, setQuery] = useState("");
+  // useEffect(() => {
+  //   if (inputRef.current) {
+  //     inputRef.current.focus();
+  //   }
+  // }, [value]);
 
-  const { data, loading } = useQuery(SEARCH_BOOKS_QUERY, {
-    variables: { filter: query },
-    skip: query.length < 2,
-  });
-
-  useEffect(() => {
-    if (query.length < 2) {
-      onResults(allBooks); 
-    } else if (data) {
-      onResults(data.books);
-    }
-  }, [data, query, allBooks, onResults]);
+  const handleSearch = (e) => {
+    const query = e.target.value;
+    onSearch(query);
+  };
 
   return (
     <TextField
       label="Search Books"
       variant="outlined"
       fullWidth
-      value={query}
-      onChange={(e) => setQuery(e.target.value)}
+      value={value}
+      autoFocus
+      onChange={handleSearch}
       InputProps={{
         startAdornment: (
           <InputAdornment position="start">
             <SearchIcon />
           </InputAdornment>
         ),
-        endAdornment: loading ? <CircularProgress size={20} /> : null,
       }}
     />
   );

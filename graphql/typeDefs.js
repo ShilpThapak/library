@@ -21,8 +21,8 @@ export const typeDefs = `#graphql
     }
 
     type Query {
-    books (filter: String): [Book]
-    authors (filter: String): [Author]
+    books (filter: String, offset: Int, limit: Int): BooksResponse
+    authors (filter: String, offset: Int, limit: Int): AuthorsResponse
     book (id: ID!): Book
     author (id: ID!): Author
     }
@@ -61,5 +61,15 @@ export const typeDefs = `#graphql
     name: String!
     biography: String!
     born_date: String!
+    }
+
+    type BooksResponse {
+        books: [Book]!
+        totalCount: Int!
+    }
+
+    type AuthorsResponse {
+        authors: [Author]!
+        totalCount: Int!
     }
 `;

@@ -14,7 +14,12 @@ export const resolvers = {
           ];
         }
       
-        return await Book.findAll({ where });
+        const { count, rows } = await Book.findAndCountAll({ 
+          where,
+          limit: args.limit, 
+          offset: args.offset 
+        });
+        return { books: rows, totalCount: count };
       },
       authors: async (_, args) => {
         const where = {};
@@ -25,8 +30,12 @@ export const resolvers = {
             { biography: { [Op.iLike]: `%${args.filter}%` } },
           ];
         }
-
-        return await Author.findAll({ where });
+        const { count, rows } = await Author.findAndCountAll({ 
+          where,
+          limit: args.limit, 
+          offset: args.offset 
+        });
+        return { authors: rows, totalCount: count };
       },
       book: async (_, args) => {
         return await Book.findByPk(args.id);
