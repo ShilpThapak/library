@@ -2,6 +2,13 @@
 
 This is a Next.js-based library application that uses PostgreSQL and MongoDB as databases. This guide will help you set up and run the application using Docker.
 
+## Demo
+
+Check out a demo of the app in action:  
+[![Watch the demo](https://img.youtube.com/vi/tqrFGQp8HbI/0.jpg)](https://www.youtube.com/watch?v=tqrFGQp8HbI)  
+[Watch on YouTube](https://www.youtube.com/watch?v=tqrFGQp8HbI)
+
+
 ## Prerequisites
 
 Ensure you have the following installed on your system:
