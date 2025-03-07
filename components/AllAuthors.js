@@ -1,6 +1,8 @@
 import { useQuery, gql } from "@apollo/client";
 import styles from "../styles/Home.module.css";
 import ResponsiveGridBooks from "./ResponsiveGrid";
+import SearchBar from "./SearchBarAuthors";
+import { useEffect, useState } from "react";
 
 const QUERY = gql`
   query Authors {
@@ -14,6 +16,14 @@ const QUERY = gql`
 
 export default function AllAuthors() {
   const { data, loading, error } = useQuery(QUERY);
+  const [searchResult, setSearchResults] = useState()
+
+  useEffect(() => {
+    if (data) {
+      setSearchResults(data.authors);
+    }
+  }, [data]);
+  
 
   if (loading) {
     return <h2>Loading...</h2>;
@@ -24,11 +34,12 @@ export default function AllAuthors() {
     return null;
   }
 
-//   const books = data.books;
-
   return (
     <div className={styles.grid}>
-      <ResponsiveGridBooks gridArray={data.authors}/>
+      <SearchBar onResults={setSearchResults} allAuthors={data.authors}/>
+      <br></br>
+      <br></br>
+      <ResponsiveGridBooks gridArray={searchResult}/>
     </div>
   );
 }

@@ -1,13 +1,32 @@
 import Book from '@/models/book'
 import Author from '@/models/author'
+import { Op } from '@sequelize/core';
 
 export const resolvers = {
     Query: {
-      books: async () => {
-        return await Book.findAll();
+      books: async (_, args) => {
+        const where = {};
+      
+        if (args.filter) {
+          where[Op.or] = [
+            { title: { [Op.iLike]: `%${args.filter}%` } },
+            { description: { [Op.iLike]: `%${args.filter}%` } },
+          ];
+        }
+      
+        return await Book.findAll({ where });
       },
-      authors: async () => {
-        return await Author.findAll();
+      authors: async (_, args) => {
+        const where = {};
+      
+        if (args.filter) {
+          where[Op.or] = [
+            { name: { [Op.iLike]: `%${args.filter}%` } },
+            { biography: { [Op.iLike]: `%${args.filter}%` } },
+          ];
+        }
+
+        return await Author.findAll({ where });
       },
       book: async (_, args) => {
         return await Book.findByPk(args.id);

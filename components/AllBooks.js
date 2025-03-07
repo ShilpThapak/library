@@ -1,6 +1,8 @@
 import { useQuery, gql } from "@apollo/client";
 import styles from "../styles/Home.module.css";
 import ResponsiveGrid from "./ResponsiveGrid";
+import SearchBar from "./SearchBarBooks";
+import { useEffect, useState } from "react";
 
 const QUERY = gql`
   query Books {
@@ -18,6 +20,14 @@ const QUERY = gql`
 
 export default function AllBooks() {
   const { data, loading, error } = useQuery(QUERY);
+  const [searchResult, setSearchResults] = useState()
+
+  useEffect(() => {
+    if (data) {
+      setSearchResults(data.books);
+    }
+  }, [data]);
+  
 
   if (loading) {
     return <h2>Loading...</h2>;
@@ -27,10 +37,17 @@ export default function AllBooks() {
     console.error(error);
     return null;
   }
+  
 
   return (
-    <div className={styles.grid}>
-      <ResponsiveGrid gridArray={data.books} itemType="book"/>
-    </div>
+    <>
+      <SearchBar onResults={setSearchResults} allBooks={data.books}/>
+      <br></br>
+      <br></br>
+      <div className={styles.grid}>
+        <ResponsiveGrid gridArray={searchResult} itemType="book"/>
+      </div>
+    </>
+    
   );
 }
