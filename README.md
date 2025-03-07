@@ -1,4 +1,4 @@
-# Next.js Library App (Dockerized)
+# Next.js Library App
 
 This is a Next.js-based library application that uses PostgreSQL and MongoDB as databases. This guide will help you set up and run the application using Docker.
 
