@@ -2,6 +2,10 @@ import { TextField, FormControl, InputLabel, Select, MenuItem, Typography, Butto
 import {useState, useEffect} from 'react'
 import { useQuery, gql, useMutation } from "@apollo/client";
 import { useRouter } from 'next/router'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import dayjs from 'dayjs';
 
 const GET_AUTHORS_QUERY = gql`
     query Authors {
@@ -49,26 +53,29 @@ export default function EditBookForm() {
     const bookID = router.query.slug
     const { data: bookData, loading: bookLoading, error: bookError } = useQuery(GET_BOOK_QUERY, {variables: {"bookId": bookID}});
 
-    // if (bookLoading) {
-    //     return <h2>Loading...</h2>;     
-    // }
-
-    // if (bookError) {
-    //     console.error(error);
-    //     return <h2>An unexpected error occurred. {bookError}</h2>;
-    // }
-
     const [title, setTitle] = useState("")
     const [description, setDescription] = useState("")
     const [author, setAuthor] = useState("")
-    const [publishDate, setPublishDate] = useState("")
+    const [publishDate, setPublishDate] = useState(null)
+    const [submitStatus, setSubmitStatus] = useState(false)
+    
+    useEffect(() => {
+        if (title != "" && description != "" && publishDate != null && author != ""){
+            setSubmitStatus(true)
+        }
+        else {
+            setSubmitStatus(false)
+        }
+    },[title, description, publishDate, author])
 
     useEffect(() => {
         if (bookData?.book) {
             setTitle(bookData.book.title);
             setDescription(bookData.book.description);
             setAuthor(bookData.book.author.id);
-            setPublishDate(bookData.book.published_date);
+            // setPublishDate(bookData.book.published_date);
+            const formattedPublishDate = dayjs(bookData.book.published_date);
+            setPublishDate(formattedPublishDate.isValid() ? formattedPublishDate : null);
         }
     }, [bookData]);
 
@@ -156,18 +163,23 @@ export default function EditBookForm() {
         <br></br>
 
         <FormControl fullWidth>
-            <TextField
-            id="outlined-helperText"
-            label="Publish Date - DD/MM/YYYY"
-            value={publishDate}
-            onChange={(e) => setPublishDate(e.target.value)}
-            />
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker 
+                    label="Publish Date"
+                    value={publishDate}
+                    onChange={(e) => setPublishDate(e)}
+                />
+            </LocalizationProvider>
         </FormControl>
 
         <br></br>
         <br></br>
 
-        <Button type="submit" variant="contained">Edit</Button>
+        {
+            submitStatus? <Button type="submit" variant="contained">Edit</Button>
+            :
+            <Button type="submit" variant="contained" disabled>Edit</Button>
+        }
     </form>
     
 }

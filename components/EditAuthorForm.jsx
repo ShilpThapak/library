@@ -2,6 +2,10 @@ import { TextField, FormControl, InputLabel, Select, MenuItem, Typography, Butto
 import {useState, useEffect} from 'react'
 import { useQuery, gql, useMutation } from "@apollo/client";
 import { useRouter } from 'next/router'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import dayjs from 'dayjs';
 
 
 const GET_AUTHOR_QUERY = gql`
@@ -38,19 +42,29 @@ export default function EditAuthorForm() {
 
     const [name, setName] = useState("")
     const [bio, setBio] = useState("")
-    const [bornDate, setBornDate] = useState("")
+    const [bornDate, setBornDate] = useState(null)
+    const [submitStatus, setSubmitStatus] = useState(false)
+
+    useEffect(() => {
+        if (name != "" && bio != "" && bornDate != null){
+            setSubmitStatus(true)
+        }
+        else {
+            setSubmitStatus(false)
+        }
+    },[name, bio, bornDate])
 
     useEffect(() => {
         if (authorData?.author) {
             setName(authorData.author.name);
             setBio(authorData.author.biography);
-            setBornDate(authorData.author.born_date);
+            const formattedBornDate = dayjs(authorData.author.born_date);
+            setBornDate(formattedBornDate.isValid() ? formattedBornDate : null);
         }
     }, [authorData]);
 
     const editAuthorHandler = (e) => {
         e.preventDefault()
-        // console.log(title, description, author, publishDate, authorsData)
         editAuthor({
             variables: {
                 "editAuthorId": authorID,
@@ -109,18 +123,23 @@ export default function EditAuthorForm() {
         <br></br>
 
         <FormControl fullWidth>
-            <TextField
-            id="outlined-helperText"
-            label="Born Date - DD/MM/YYYY"
-            value={bornDate}
-            onChange={(e) => setBornDate(e.target.value)}
-            />
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker 
+                    label="Born Date"
+                    value={bornDate}
+                    onChange={(e) => setBornDate(e)}
+                />
+            </LocalizationProvider>
         </FormControl>
 
         <br></br>
         <br></br>
 
-        <Button type="submit" variant="contained">Edit</Button>
+        {
+            submitStatus? <Button type="submit" variant="contained">Edit</Button>
+            :
+            <Button type="submit" variant="contained" disabled>Edit</Button>
+        }
     </form>
     
 }

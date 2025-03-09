@@ -1,6 +1,9 @@
 import { TextField, FormControl, InputLabel, Select, MenuItem, Typography, Button } from "@mui/material"
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import { gql, useMutation } from "@apollo/client";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 const ADD_AUTHOR_MUTATION = gql`
     mutation AddAuthor($author: AddAuthorInput!) {
@@ -15,7 +18,17 @@ export default function CreateAuthorForm() {
 
     const [name, setName] = useState("")
     const [bio, setBio] = useState("")
-    const [bornDate, setBornDate] = useState("")
+    const [bornDate, setBornDate] = useState(null)
+    const [submitStatus, setSubmitStatus] = useState(false)
+
+    useEffect(() => {
+        if (name != "" && bio != "" && bornDate != null){
+            setSubmitStatus(true)
+        }
+        else {
+            setSubmitStatus(false)
+        }
+    },[name, bio, bornDate])
 
     function createAuthor(e){
         e.preventDefault();
@@ -74,17 +87,22 @@ export default function CreateAuthorForm() {
         <br></br>
 
         <FormControl fullWidth>
-            <TextField
-            id="outlined-helperText"
-            label="Publish Date - DD/MM/YYYY"
-            value={bornDate}
-            onChange={(e) => setBornDate(e.target.value)}
-            />
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker 
+                    label="Born Date - DD/MM/YYYY"
+                    value={bornDate}
+                    onChange={(e) => setBornDate(e)}
+                />
+            </LocalizationProvider>
         </FormControl>
+        
 
         <br></br>
         <br></br>
-
-        <Button type="submit" variant="contained" >Create</Button>
+        {
+            submitStatus? <Button type="submit" variant="contained">Create</Button>
+            :
+            <Button type="submit" variant="contained" disabled>Create</Button>
+        }
     </form>
 }

@@ -1,6 +1,10 @@
 import { TextField, FormControl, InputLabel, Select, MenuItem, Typography, Button } from "@mui/material"
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import { useQuery, gql, useMutation } from "@apollo/client";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+
 
 const GET_AUTHORS_QUERY = gql`
       query Authors {
@@ -32,7 +36,17 @@ export default function CreateBookForm() {
     const [title, setTitle] = useState("")
     const [description, setDescription] = useState("")
     const [author, setAuthor] = useState("")
-    const [publishDate, setPublishDate] = useState("")
+    const [publishDate, setPublishDate] = useState(null)
+    const [submitStatus, setSubmitStatus] = useState(false)
+    
+    useEffect(() => {
+        if (title != "" && description != "" && publishDate != null && author != ""){
+            setSubmitStatus(true)
+        }
+        else {
+            setSubmitStatus(false)
+        }
+    },[title, description, publishDate, author])
 
     const createBook = (e) => {
         e.preventDefault()
@@ -89,11 +103,6 @@ export default function CreateBookForm() {
                 }
             >
                 {authorsData ? authorsData.authors.authors.map((i) => <MenuItem key={i.id} value={i.id}>{i.name}</MenuItem>):<MenuItem value={0}>Null</MenuItem>}
-                {/* <MenuItem value={1}>JK Rowling</MenuItem>
-                <MenuItem value={2}>Jane Austine</MenuItem>
-                <MenuItem value={3}>RR Martin 1</MenuItem>
-                <MenuItem value={4}>RR Martin 2</MenuItem>
-                <MenuItem value={5}>RR Martin 3</MenuItem> */}
             </Select>
         </FormControl>
 
@@ -115,18 +124,23 @@ export default function CreateBookForm() {
         <br></br>
 
         <FormControl fullWidth>
-            <TextField
-            id="outlined-helperText"
-            label="Publish Date - DD/MM/YYYY"
-            value={publishDate}
-            onChange={(e) => setPublishDate(e.target.value)}
-            />
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker 
+                    label="Publish Date"
+                    value={publishDate}
+                    onChange={(e) => setPublishDate(e)}
+                />
+            </LocalizationProvider>
         </FormControl>
 
         <br></br>
         <br></br>
 
-        <Button type="submit" variant="contained" >Create</Button>
+        {
+            submitStatus? <Button type="submit" variant="contained">Create</Button>
+            :
+            <Button type="submit" variant="contained" disabled>Create</Button>
+        }
     </form>
     
 }
