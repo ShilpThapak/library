@@ -19,7 +19,5 @@ export default function MyApp({ Component, pageProps }) {
                 <Component {...pageProps} style={{ padding: "25px" }} />
             </ThemeProvider>
         </ApolloProvider>
-
-
     );
 }
