@@ -57,7 +57,7 @@ export default function AllBooks() {
 
   if (loading) return <h2>Loading...</h2>;
   if (error) return <h2>Error loading books</h2>;
-  
+
 
   return (
     <>
@@ -66,7 +66,7 @@ export default function AllBooks() {
       <br></br>
       <br></br>
       <div className={styles.grid}>
-        <ResponsiveGrid gridArray={searchResults} itemType="book"/>
+        <ResponsiveGrid gridArray={searchResults} itemType="book" />
       </div>
 
       <Stack spacing={2} sx={{ mt: 2, alignItems: "center" }}>
@@ -77,6 +77,6 @@ export default function AllBooks() {
         />
       </Stack>
     </>
-    
+
   );
 }
