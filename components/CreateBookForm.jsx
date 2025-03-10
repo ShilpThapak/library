@@ -4,18 +4,7 @@ import { useQuery, gql, useMutation } from "@apollo/client";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-
-
-const GET_AUTHORS_QUERY = gql`
-      query Authors {
-        authors {
-            authors {
-                id
-                name
-            }
-        }
-    }
-`;
+import useAuthorStore from "@/store/authorStore";
 
 const ADD_BOOK_MUTATION = gql`
     mutation Mutation($book: AddBookInput!) {
@@ -25,12 +14,11 @@ const ADD_BOOK_MUTATION = gql`
     }
 `;
 
-export default function CreateBookForm() {
-
-    const { data: authorsData, loading: authorsLoading, error: authorsError } = useQuery(GET_AUTHORS_QUERY);
+export default function CreateBookForm({ handleClose }) {
+    const { authors:authorsData } = useAuthorStore();
     const [addBook, 
         { data: addBookData, loading: addBookLoading, error: addBookError }
-    ] = useMutation(ADD_BOOK_MUTATION, {onCompleted: () => {window.location.reload()}});
+    ] = useMutation(ADD_BOOK_MUTATION, {onCompleted: () => {handleClose()}});
 
 
     const [title, setTitle] = useState("")
@@ -63,15 +51,6 @@ export default function CreateBookForm() {
         })
     }
 
-    if (authorsLoading) {
-        return <h2>Loading...</h2>;     
-    }
-
-    if (authorsError) {
-        console.error(error);
-        return <h2>An unexpected error occurred. {error}</h2>;
-    }
-
     return <form onSubmit={createBook}>
         <Typography variant="h6" >
             Create a new Book:
@@ -102,7 +81,7 @@ export default function CreateBookForm() {
                     (e) => setAuthor(e.target.value)
                 }
             >
-                {authorsData ? authorsData.authors.authors.map((i) => <MenuItem key={i.id} value={i.id}>{i.name}</MenuItem>):<MenuItem value={0}>Null</MenuItem>}
+                {authorsData ? authorsData.map((i) => <MenuItem key={i.id} value={i.id}>{i.name}</MenuItem>):<MenuItem value={0}>Null</MenuItem>}
             </Select>
         </FormControl>
 

@@ -6,17 +6,8 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
+import useAuthorStore from "@/store/authorStore";
 
-const GET_AUTHORS_QUERY = gql`
-    query Authors {
-        authors {
-            authors {
-                id
-                name
-            }
-        }
-    }
-`;
 
 const GET_BOOK_QUERY = gql`
     query Book($bookId: ID!) {
@@ -41,12 +32,11 @@ const EDIT_BOOK_MUTATION = gql`
     }
 `;
 
-export default function EditBookForm() {
-
-    const { data: authorsData, loading: authorsLoading, error: authorsError } = useQuery(GET_AUTHORS_QUERY);
+export default function EditBookForm({ handleClose }) {
+    const { authors:authorsData } = useAuthorStore();
     const [editBook, 
         { data: editBookData, loading: editBookLoading, error: editBookError }
-    ] = useMutation(EDIT_BOOK_MUTATION, {onCompleted: () => {window.location.reload()}});
+    ] = useMutation(EDIT_BOOK_MUTATION, {onCompleted: () => {handleClose()}});
     
 
     const router = useRouter()
@@ -97,14 +87,14 @@ export default function EditBookForm() {
         }
     }
 
-    if (authorsLoading) {
-        return <h2>Loading...</h2>;     
-    }
+    // if (authorsLoading) {
+    //     return <h2>Loading...</h2>;     
+    // }
 
-    if (authorsError) {
-        console.log(error);
-        return <h2>An unexpected error occurred. {error}</h2>;
-    }
+    // if (authorsError) {
+    //     console.log(error);
+    //     return <h2>An unexpected error occurred. {error}</h2>;
+    // }
 
     return <form onSubmit={editBookHandler}>
         <Typography variant="h6" >
@@ -136,12 +126,7 @@ export default function EditBookForm() {
                     (e) => setAuthor(e.target.value)
                 }
             >
-                {authorsData ? authorsData.authors.authors.map((i) => <MenuItem key={i.id} value={i.id}>{i.name}</MenuItem>):<MenuItem value={0}>Null</MenuItem>}
-                {/* <MenuItem value={1}>JK Rowling</MenuItem>
-                <MenuItem value={2}>Jane Austine</MenuItem>
-                <MenuItem value={3}>RR Martin 1</MenuItem>
-                <MenuItem value={4}>RR Martin 2</MenuItem>
-                <MenuItem value={5}>RR Martin 3</MenuItem> */}
+                {authorsData ? authorsData.map((i) => <MenuItem key={i.id} value={i.id}>{i.name}</MenuItem>):<MenuItem value={0}>Null</MenuItem>}
             </Select>
         </FormControl>
 

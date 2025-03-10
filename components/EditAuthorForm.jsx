@@ -26,11 +26,11 @@ const EDIT_AUTHOR_MUTATION = gql`
     }
 `;
 
-export default function EditAuthorForm() {
+export default function EditAuthorForm({ handleClose }) {
 
     const [editAuthor, 
         { data: editAuthorData, loading: editAuthorLoading, error: editAuthorError }
-    ] = useMutation(EDIT_AUTHOR_MUTATION, {onCompleted: () => {window.location.reload()}});
+    ] = useMutation(EDIT_AUTHOR_MUTATION, {onCompleted: () => {handleClose()}});
     
 
     const router = useRouter()

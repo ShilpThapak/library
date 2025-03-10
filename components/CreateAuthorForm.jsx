@@ -13,8 +13,8 @@ const ADD_AUTHOR_MUTATION = gql`
     }
 `;
 
-export default function CreateAuthorForm() {
-    const [addAuthor, { loading, error }] = useMutation(ADD_AUTHOR_MUTATION, {onCompleted: () => {window.location.reload()}});
+export default function CreateAuthorForm({ handleClose }) {
+    const [addAuthor, { loading, error }] = useMutation(ADD_AUTHOR_MUTATION, {onCompleted: () => {handleClose()}});
 
     const [name, setName] = useState("")
     const [bio, setBio] = useState("")

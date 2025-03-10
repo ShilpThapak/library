@@ -9,6 +9,7 @@ import createApolloClient from "@/apollo-client";
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import theme from '@/theme';
+import LoadAuthors from "@/pages/authors/LoadAuthors";
 
 const client = createApolloClient();
 export default function MyApp({ Component, pageProps }) {
@@ -17,6 +18,7 @@ export default function MyApp({ Component, pageProps }) {
             <ThemeProvider theme={theme}>
                 <CssBaseline />
                 <Component {...pageProps} style={{ padding: "25px" }} />
+                <LoadAuthors />
             </ThemeProvider>
         </ApolloProvider>
     );
