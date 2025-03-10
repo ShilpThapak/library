@@ -13,6 +13,7 @@ const GET_AUTHORS_QUERY = gql`
 `;
 
 const LoadAuthors = () => {
+    console.log("loading authors...")
   const { setAuthors } = useAuthorStore();
 
   const { data, loading, error } = useQuery(GET_AUTHORS_QUERY, {
