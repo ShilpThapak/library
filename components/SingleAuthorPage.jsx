@@ -15,26 +15,26 @@ const QUERY = gql`
     }
 `;
 
-export default function SingleAuthorPage({authorId}) {
-  const { data, loading, error } = useQuery(QUERY, {variables: {"authorId": authorId}});
+export default function SingleAuthorPage({ authorId }) {
+    const { data, loading, error } = useQuery(QUERY, { variables: { "authorId": authorId } });
 
-  if (loading) {
-    return <h2>Loading...</h2>;
-  }
+    if (loading) {
+        return <h2>Loading...</h2>;
+    }
 
-  if (error) {
-    console.error(error);
-    return <>{error.message}</>;
-  }
+    if (error) {
+        console.error(error);
+        return <>{error.message}</>;
+    }
 
-  // const books = data.book;
+    // const books = data.book;
 
-  return (
-    <div className={styles.grid}>
-        <BasicBreadcrumbs parentPathName={"Authors"} parentPath={"/authors"} childPathName={data.author.name}/>
-        <br></br>
-        <SingleAuthorDescription authorInfo={data.author}/>
-        
-    </div>
-  );
+    return (
+        <div className={styles.grid}>
+            <BasicBreadcrumbs parentPathName={"Authors"} parentPath={"/authors"} childPathName={data.author.name} />
+            <br></br>
+            <SingleAuthorDescription authorInfo={data.author} />
+
+        </div>
+    );
 }

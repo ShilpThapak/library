@@ -8,22 +8,22 @@ export default function Authors() {
   return (
     <>
       <Stack
-            direction="row"
-            spacing={2}
-            sx={{
-                justifyContent: "space-between",
-                alignItems: "center",
-            }}
-        >
-            <Typography variant="h3" >
-              Authors
-            </Typography>
-            <BasicModal btnName="Add Author" innerContent={<CreateAuthorForm />}/>
-        </Stack>
+        direction="row"
+        spacing={2}
+        sx={{
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <Typography variant="h3" >
+          Authors
+        </Typography>
+        <BasicModal btnName="Add Author" innerContent={<CreateAuthorForm />} />
+      </Stack>
 
-        <br></br>
+      <br></br>
       <ClientOnly>
-          <AllAuthors />
+        <AllAuthors />
       </ClientOnly>
     </>
   );

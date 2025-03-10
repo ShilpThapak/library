@@ -26,57 +26,57 @@ const QUERY = gql`
 const ITEMS_PER_PAGE = 8;
 
 export default function AllBooks() {
-  const [page, setPage] = useState(1);
-  const [searchQuery, setSearchQuery] = useState(""); // Store search term
-  const [searchResults, setSearchResults] = useState([]);
+    const [page, setPage] = useState(1);
+    const [searchQuery, setSearchQuery] = useState(""); // Store search term
+    const [searchResults, setSearchResults] = useState([]);
 
-  const { data, loading, error, refetch } = useQuery(QUERY, {
-    variables: { limit: ITEMS_PER_PAGE, offset: 0, filter: searchQuery },
-  });
+    const { data, loading, error, refetch } = useQuery(QUERY, {
+        variables: { limit: ITEMS_PER_PAGE, offset: 0, filter: searchQuery },
+    });
 
-  useEffect(() => {
-    if (data) {
-      setSearchResults(data.books.books);
-    }
-  }, [data]);
+    useEffect(() => {
+        if (data) {
+            setSearchResults(data.books.books);
+        }
+    }, [data]);
 
-  const handlePageChange = (event, value) => {
-    setPage(value);
-    refetch({ limit: ITEMS_PER_PAGE, offset: (value - 1) * ITEMS_PER_PAGE, filter: searchQuery });
-  };
+    const handlePageChange = (event, value) => {
+        setPage(value);
+        refetch({ limit: ITEMS_PER_PAGE, offset: (value - 1) * ITEMS_PER_PAGE, filter: searchQuery });
+    };
 
-  const handleSearch = (query) => {
-    setSearchQuery(query);
-    setPage(1); // Reset to first page when searching
-    refetch({ limit: ITEMS_PER_PAGE, offset: 0, filter: query });
-  };
+    const handleSearch = (query) => {
+        setSearchQuery(query);
+        setPage(1); // Reset to first page when searching
+        refetch({ limit: ITEMS_PER_PAGE, offset: 0, filter: query });
+    };
 
-  const searchBarComponent = useMemo(() => {
-    return <SearchBar value={searchQuery} onSearch={handleSearch} />;
-  }, [searchQuery, handleSearch]);
+    const searchBarComponent = useMemo(() => {
+        return <SearchBar value={searchQuery} onSearch={handleSearch} />;
+    }, [searchQuery, handleSearch]);
 
-  if (loading) return <h2>Loading...</h2>;
-  if (error) return <h2>Error loading books</h2>;
+    if (loading) return <h2>Loading...</h2>;
+    if (error) return <h2>Error loading books</h2>;
 
 
-  return (
-    <>
-      {/* <SearchBar value={searchQuery} onSearch={handleSearch} /> */}
-      {searchBarComponent}
-      <br></br>
-      <br></br>
-      <div className={styles.grid}>
-        <ResponsiveGrid gridArray={searchResults} itemType="book" />
-      </div>
+    return (
+        <>
+            {/* <SearchBar value={searchQuery} onSearch={handleSearch} /> */}
+            {searchBarComponent}
+            <br></br>
+            <br></br>
+            <div className={styles.grid}>
+                <ResponsiveGrid gridArray={searchResults} itemType="book" />
+            </div>
 
-      <Stack spacing={2} sx={{ mt: 2, alignItems: "center" }}>
-        <Pagination
-          count={Math.ceil(data.books.totalCount / ITEMS_PER_PAGE)}
-          page={page}
-          onChange={handlePageChange}
-        />
-      </Stack>
-    </>
+            <Stack spacing={2} sx={{ mt: 2, alignItems: "center" }}>
+                <Pagination
+                    count={Math.ceil(data.books.totalCount / ITEMS_PER_PAGE)}
+                    page={page}
+                    onChange={handlePageChange}
+                />
+            </Stack>
+        </>
 
-  );
+    );
 }

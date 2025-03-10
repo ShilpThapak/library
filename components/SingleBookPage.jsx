@@ -18,25 +18,25 @@ const QUERY = gql`
     }
 `;
 
-export default function SingleBookPage({bookID}) {
-  const { data, loading, error } = useQuery(QUERY, {variables: {"bookId": bookID}});
+export default function SingleBookPage({ bookID }) {
+    const { data, loading, error } = useQuery(QUERY, { variables: { "bookId": bookID } });
 
-  if (loading) {
-    return <h2>Loading...</h2>;
-  }
+    if (loading) {
+        return <h2>Loading...</h2>;
+    }
 
-  if (error) {
-    console.error(error);
-    return <>{error.message}</>;
-  }
+    if (error) {
+        console.error(error);
+        return <>{error.message}</>;
+    }
 
-  const books = data.book;
-  return (
-    <div className={styles.grid}>
-        <BasicBreadcrumbs parentPathName={"Books"} parentPath={"/books"} childPathName={data.book.title}/>
-        <br></br>
-        <SingleBookDescription bookInfo={books}/>
-        <ReviewsList bookID={bookID}/>
-    </div>
-  );
+    const books = data.book;
+    return (
+        <div className={styles.grid}>
+            <BasicBreadcrumbs parentPathName={"Books"} parentPath={"/books"} childPathName={data.book.title} />
+            <br></br>
+            <SingleBookDescription bookInfo={books} />
+            <ReviewsList bookID={bookID} />
+        </div>
+    );
 }
