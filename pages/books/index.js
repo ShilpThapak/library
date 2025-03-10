@@ -4,11 +4,13 @@ import { Stack, Typography } from "@mui/material";
 import BasicModal from "@/components/BasicModal";
 import CreateBookForm from "@/components/CreateBookForm"
 import LoadAuthors from "@/pages/authors/LoadAuthors";
+import useAuthorStore from "@/store/authorStore";
 
 export default function Books() {
+    const { authors } = useAuthorStore();
     return (
         <>
-            <LoadAuthors />
+            
             <Stack
                 direction="row"
                 spacing={2}
@@ -24,10 +26,10 @@ export default function Books() {
             </Stack>
 
             <br></br>
-
             <ClientOnly>
                 <AllBooks />
             </ClientOnly>
+            {authors.length == 0? <LoadAuthors />:<></>}
 
         </>
     );
