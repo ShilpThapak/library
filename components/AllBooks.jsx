@@ -55,7 +55,7 @@ export default function AllBooks() {
         return <SearchBar value={searchQuery} onSearch={handleSearch} />;
     }, [searchQuery, handleSearch]);
 
-    if (loading) return <h2>Loading...</h2>;
+    // if (loading) return <h2>Loading...</h2>;
     if (error) return <h2>Error loading books</h2>;
 
 
@@ -65,17 +65,20 @@ export default function AllBooks() {
             {searchBarComponent}
             <br></br>
             <br></br>
-            <div className={styles.grid}>
-                <ResponsiveGrid gridArray={searchResults} itemType="book" />
-            </div>
+            {loading? <></>:<>
+                <div className={styles.grid}>
+                    <ResponsiveGrid gridArray={searchResults} itemType="book" />
+                </div>
 
-            <Stack spacing={2} sx={{ mt: 2, alignItems: "center" }}>
-                <Pagination
-                    count={Math.ceil(data.books.totalCount / ITEMS_PER_PAGE)}
-                    page={page}
-                    onChange={handlePageChange}
-                />
-            </Stack>
+                <Stack spacing={2} sx={{ mt: 2, alignItems: "center" }}>
+                    <Pagination
+                        count={Math.ceil(data.books.totalCount / ITEMS_PER_PAGE)}
+                        page={page}
+                        onChange={handlePageChange}
+                    />
+                </Stack>
+            </>}
+            
         </>
 
     );

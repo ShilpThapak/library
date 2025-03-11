@@ -59,7 +59,8 @@ export default function AllAuthors() {
             {searchBarComponent}
             <br />
             <br />
-            <div className={styles.grid}>
+            {loading? <>Loading</>:<>
+                <div className={styles.grid}>
                 <ResponsiveGrid gridArray={searchResults} itemType="author" />
             </div>
             <Stack spacing={2} sx={{ mt: 2, alignItems: "center" }}>
@@ -69,6 +70,7 @@ export default function AllAuthors() {
                     onChange={handlePageChange}
                 />
             </Stack>
+            </>}
         </>
     );
 }
