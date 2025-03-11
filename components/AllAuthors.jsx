@@ -1,5 +1,5 @@
 import { useQuery, gql } from "@apollo/client";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import styles from "../styles/Home.module.css";
@@ -24,10 +24,11 @@ const ITEMS_PER_PAGE = 8;
 export default function AllAuthors() {
     const [page, setPage] = useState(1);
     const [searchQuery, setSearchQuery] = useState("");
+    const [debouncedQuery, setDebouncedQuery] = useState(""); // ✅ Debounced version of searchQuery
     const [searchResults, setSearchResults] = useState([]);
 
     const { data, loading, error, refetch } = useQuery(QUERY, {
-        variables: { limit: ITEMS_PER_PAGE, offset: 0, filter: searchQuery },
+        variables: { limit: ITEMS_PER_PAGE, offset: (page - 1) * ITEMS_PER_PAGE, filter: debouncedQuery },
     });
 
     useEffect(() => {
@@ -36,22 +37,30 @@ export default function AllAuthors() {
         }
     }, [data]);
 
+    // ✅ Debounce Effect: Updates `debouncedQuery` after 500ms delay
+    useEffect(() => {
+        const handler = setTimeout(() => {
+            setDebouncedQuery(searchQuery);
+            setPage(1); // Reset page when new search starts
+            refetch({ limit: ITEMS_PER_PAGE, offset: 0, filter: searchQuery });
+        }, 500); // 500ms delay
+
+        return () => clearTimeout(handler); // Cleanup timeout on unmount or new input
+    }, [searchQuery, refetch]);
+
     const handlePageChange = (event, value) => {
         setPage(value);
-        refetch({ limit: ITEMS_PER_PAGE, offset: (value - 1) * ITEMS_PER_PAGE, filter: searchQuery });
+        refetch({ limit: ITEMS_PER_PAGE, offset: (value - 1) * ITEMS_PER_PAGE, filter: debouncedQuery });
     };
 
-    const handleSearch = (query) => {
+    const handleSearch = useCallback((query) => {
         setSearchQuery(query);
-        setPage(1);
-        refetch({ limit: ITEMS_PER_PAGE, offset: 0, filter: query });
-    };
+    }, []);
 
     const searchBarComponent = useMemo(() => {
         return <SearchBar value={searchQuery} onSearch={handleSearch} />;
     }, [searchQuery, handleSearch]);
 
-    if (loading) return <h2>Loading...</h2>;
     if (error) return <h2>Error loading authors</h2>;
 
     return (
@@ -59,18 +68,22 @@ export default function AllAuthors() {
             {searchBarComponent}
             <br />
             <br />
-            {loading? <>Loading</>:<>
-                <div className={styles.grid}>
-                <ResponsiveGrid gridArray={searchResults} itemType="author" />
-            </div>
-            <Stack spacing={2} sx={{ mt: 2, alignItems: "center" }}>
-                <Pagination
-                    count={Math.ceil(data.authors.totalCount / ITEMS_PER_PAGE)}
-                    page={page}
-                    onChange={handlePageChange}
-                />
-            </Stack>
-            </>}
+            {loading ? (
+                <h2>Loading...</h2>
+            ) : (
+                <>
+                    <div className={styles.grid}>
+                        <ResponsiveGrid gridArray={searchResults} itemType="author" />
+                    </div>
+                    <Stack spacing={2} sx={{ mt: 2, alignItems: "center" }}>
+                        <Pagination
+                            count={Math.ceil(data.authors.totalCount / ITEMS_PER_PAGE)}
+                            page={page}
+                            onChange={handlePageChange}
+                        />
+                    </Stack>
+                </>
+            )}
         </>
     );
 }
