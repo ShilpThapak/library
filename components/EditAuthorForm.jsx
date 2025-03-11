@@ -28,7 +28,7 @@ const EDIT_AUTHOR_MUTATION = gql`
     }
 `;
 
-export default function EditAuthorForm({ handleClose }) {
+export default function EditAuthorForm({ authorInfo:authorData, handleClose }) {
     const { updateAuthorInCache } = useAuthorStore();
     const router = useRouter()
     const authorID = router.query.slug
@@ -45,15 +45,9 @@ export default function EditAuthorForm({ handleClose }) {
         }
     );
     
-    
-    const { data: authorData,
-        loading: authorLoading,
-        error: authorError } = useQuery(GET_AUTHOR_QUERY, {variables: {"authorId": authorID}});
-
-
-    const [name, setName] = useState("")
-    const [bio, setBio] = useState("")
-    const [bornDate, setBornDate] = useState(null)
+    const [name, setName] = useState(authorData.name)
+    const [bio, setBio] = useState(authorData.biography)
+    const [bornDate, setBornDate] = useState(dayjs(authorData.born_date))
     const [submitStatus, setSubmitStatus] = useState(false)
 
     useEffect(() => {
@@ -89,15 +83,6 @@ export default function EditAuthorForm({ handleClose }) {
         if (editAuthorError) {
             console.log(editAuthorError)
         }
-    }
-
-    if (authorLoading) {
-        return <h2>Loading...</h2>;     
-    }
-
-    if (authorError) {
-        console.log(error);
-        return <h2>An unexpected error occurred. {error}</h2>;
     }
 
     return <form onSubmit={editAuthorHandler}>

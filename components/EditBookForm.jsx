@@ -32,7 +32,7 @@ const EDIT_BOOK_MUTATION = gql`
     }
 `;
 
-export default function EditBookForm({ handleClose }) {
+export default function EditBookForm({ bookInfo:bookData, handleClose }) {
     const { authors:authorsData } = useAuthorStore();
     const [editBook, 
         { data: editBookData, loading: editBookLoading, error: editBookError }
@@ -41,12 +41,11 @@ export default function EditBookForm({ handleClose }) {
 
     const router = useRouter()
     const bookID = router.query.slug
-    const { data: bookData, loading: bookLoading, error: bookError } = useQuery(GET_BOOK_QUERY, {variables: {"bookId": bookID}});
 
-    const [title, setTitle] = useState("")
-    const [description, setDescription] = useState("")
-    const [author, setAuthor] = useState("")
-    const [publishDate, setPublishDate] = useState(null)
+    const [title, setTitle] = useState(bookData.title)
+    const [description, setDescription] = useState(bookData.description)
+    const [author, setAuthor] = useState(bookData.author.id)
+    const [publishDate, setPublishDate] = useState(dayjs(bookData.published_date))
     const [submitStatus, setSubmitStatus] = useState(false)
     
     useEffect(() => {
@@ -57,17 +56,6 @@ export default function EditBookForm({ handleClose }) {
             setSubmitStatus(false)
         }
     },[title, description, publishDate, author])
-
-    useEffect(() => {
-        if (bookData?.book) {
-            setTitle(bookData.book.title);
-            setDescription(bookData.book.description);
-            setAuthor(bookData.book.author.id);
-            // setPublishDate(bookData.book.published_date);
-            const formattedPublishDate = dayjs(bookData.book.published_date);
-            setPublishDate(formattedPublishDate.isValid() ? formattedPublishDate : null);
-        }
-    }, [bookData]);
 
     const editBookHandler = (e) => {
         e.preventDefault()
@@ -87,18 +75,9 @@ export default function EditBookForm({ handleClose }) {
         }
     }
 
-    // if (authorsLoading) {
-    //     return <h2>Loading...</h2>;     
-    // }
-
-    // if (authorsError) {
-    //     console.log(error);
-    //     return <h2>An unexpected error occurred. {error}</h2>;
-    // }
-
     return <form onSubmit={editBookHandler}>
         <Typography variant="h6" >
-            Edit/Delete this Book:
+            Edit  this Book:
         </Typography>
 
         <br></br>

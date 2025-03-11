@@ -67,7 +67,7 @@ export default function SingleAuthorDescription({authorInfo}) {
           {/* <BasicModal btnName={"Edit/Delete Author"} innerContent={<EditBookForm />}/> */}
 
             <Box display="flex" gap={2} mt={2}>
-                <BasicModal btnName={"Edit Author"} innerContent={<EditAuthorForm />} />
+                <BasicModal btnName={"Edit Author"} innerContent={<EditAuthorForm authorInfo={authorInfo}/>} />
                 <Button variant="contained" color="error" onClick={deleteAuthorHandler}>
                     Delete Author
                 </Button>

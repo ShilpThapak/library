@@ -12,6 +12,7 @@ const QUERY = gql`
             title
             description
             author {
+                id
                 name
             }
         }

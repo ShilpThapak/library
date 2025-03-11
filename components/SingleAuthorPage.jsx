@@ -27,14 +27,11 @@ export default function SingleAuthorPage({ authorId }) {
         return <>{error.message}</>;
     }
 
-    // const books = data.book;
-
     return (
         <div className={styles.grid}>
             <BasicBreadcrumbs parentPathName={"Authors"} parentPath={"/authors"} childPathName={data.author.name} />
             <br></br>
             <SingleAuthorDescription authorInfo={data.author} />
-
         </div>
     );
 }

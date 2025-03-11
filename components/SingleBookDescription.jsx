@@ -64,7 +64,7 @@ export default function SingleBookDescription({bookInfo}) {
           </Typography>
           {/* <BasicModal btnName={"Edit Book"} innerContent={<EditBookForm />}/> */}
           <Box display="flex" gap={2} mt={2}>
-            <BasicModal btnName={"Edit Book"} innerContent={<EditBookForm />} />
+            <BasicModal btnName={"Edit Book"} innerContent={<EditBookForm bookInfo={bookInfo}/>} />
             <Button variant="contained" color="error" onClick={deleteBookHandler}>
               Delete Book
             </Button>
