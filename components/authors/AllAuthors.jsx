@@ -2,8 +2,7 @@ import { useQuery, gql } from "@apollo/client";
 import { useEffect, useState, useMemo, useCallback } from "react";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
-import styles from "../styles/Home.module.css";
-import ResponsiveGrid from "./ResponsiveGrid";
+import ResponsiveGrid from "../layout/ResponsiveGrid";
 import SearchBar from "./SearchBarAuthors";
 
 const QUERY = gql`
@@ -72,7 +71,7 @@ export default function AllAuthors() {
                 <h2>Loading...</h2>
             ) : (
                 <>
-                    <div className={styles.grid}>
+                    <div>
                         <ResponsiveGrid gridArray={searchResults} itemType="author" />
                     </div>
                     <Stack spacing={2} sx={{ mt: 2, alignItems: "center" }}>

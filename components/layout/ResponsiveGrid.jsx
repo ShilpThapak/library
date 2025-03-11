@@ -3,8 +3,8 @@ import { experimentalStyled as styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid2';
-import BasicCardBooks from './BasicCardBooks';
-import BasicCardAuthors from './BasicCardAuthors';
+import BasicCardBooks from '../books/BasicCardBooks';
+import BasicCardAuthors from '../authors/BasicCardAuthors';
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: '#fff',

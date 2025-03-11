@@ -1,6 +1,6 @@
 import { Box, Card, CardContent, CardMedia, Typography, Button } from "@mui/material";
-import BasicModal from "@/components/BasicModal"
-import EditAuthorForm from "@/components/EditAuthorForm"
+import BasicModal from "@/components/common/BasicModal"
+import EditAuthorForm from "@/components/authors/EditAuthorForm"
 import { useQuery, gql, useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
 import useAuthorStore from "@/store/authorStore";

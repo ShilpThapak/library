@@ -1,8 +1,8 @@
-import ClientOnly from "@/components/ClientOnly";
-import AllBooks from "@/components/AllBooks";
+import ClientOnly from "@/components/common/ClientOnly";
+import AllBooks from "@/components/books/AllBooks";
 import { Stack, Typography } from "@mui/material";
-import BasicModal from "@/components/BasicModal";
-import CreateBookForm from "@/components/CreateBookForm"
+import BasicModal from "@/components/common/BasicModal";
+import CreateBookForm from "@/components/books/CreateBookForm"
 import LoadAuthors from "@/pages/authors/LoadAuthors";
 import useAuthorStore from "@/store/authorStore";
 

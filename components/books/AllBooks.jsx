@@ -1,6 +1,6 @@
 import { useQuery, gql } from "@apollo/client";
-import styles from "../styles/Home.module.css";
-import ResponsiveGrid from "./ResponsiveGrid";
+import ResponsiveGrid from "../layout/ResponsiveGrid";
+// import SearchBar from "../SearchBarBooks";
 import SearchBar from "./SearchBarBooks";
 import { useEffect, useState, useMemo } from "react";
 import Pagination from "@mui/material/Pagination";
@@ -76,7 +76,7 @@ export default function AllBooks() {
                 <h2>Loading...</h2>
             ) : (
                 <>
-                    <div className={styles.grid}>
+                    <div >
                         <ResponsiveGrid gridArray={searchResults} itemType="book" />
                     </div>
                     <Stack spacing={2} sx={{ mt: 2, alignItems: "center" }}>

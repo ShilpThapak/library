@@ -1,8 +1,8 @@
-import ClientOnly from "@/components/ClientOnly";
-import AllAuthors from "@/components/AllAuthors";
+import ClientOnly from "@/components/common/ClientOnly";
+import AllAuthors from "@/components/authors/AllAuthors";
 import { Stack, Typography } from "@mui/material";
-import BasicModal from "@/components/BasicModal";
-import CreateAuthorForm from "@/components/CreateAuthorForm";
+import BasicModal from "@/components/common/BasicModal";
+import CreateAuthorForm from "@/components/authors/CreateAuthorForm";
 
 export default function Authors() {
   return (

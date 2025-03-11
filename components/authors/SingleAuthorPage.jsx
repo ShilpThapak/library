@@ -1,7 +1,6 @@
 import { useQuery, gql } from "@apollo/client";
-import styles from "../styles/Home.module.css";
-import ResponsiveGrid from "./ResponsiveGrid";
-import BasicBreadcrumbs from "@/components/BasicBreadcrumbs";
+import ResponsiveGrid from "../layout/ResponsiveGrid";
+import BasicBreadcrumbs from "@/components/layout/BasicBreadcrumbs";
 import SingleAuthorDescription from "./SingleAuthorDescription";
 
 const QUERY = gql`
@@ -28,7 +27,7 @@ export default function SingleAuthorPage({ authorId }) {
     }
 
     return (
-        <div className={styles.grid}>
+        <div>
             <BasicBreadcrumbs parentPathName={"Authors"} parentPath={"/authors"} childPathName={data.author.name} />
             <br></br>
             <SingleAuthorDescription authorInfo={data.author} />

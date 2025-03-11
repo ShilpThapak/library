@@ -1,9 +1,8 @@
 import { useQuery, gql } from "@apollo/client";
-import styles from "../styles/Home.module.css";
-import ResponsiveGrid from "./ResponsiveGrid";
-import BasicBreadcrumbs from "@/components/BasicBreadcrumbs";
+import ResponsiveGrid from "../layout/ResponsiveGrid";
+import BasicBreadcrumbs from "@/components/layout/BasicBreadcrumbs";
 import SingleBookDescription from "./SingleBookDescription";
-import ReviewsList from "@/components/ReviewsList"
+import ReviewsList from "@/components/common/ReviewsList"
 
 const QUERY = gql`
     query Book($bookId: ID!) {
@@ -33,7 +32,7 @@ export default function SingleBookPage({ bookID }) {
 
     const books = data.book;
     return (
-        <div className={styles.grid}>
+        <div>
             <BasicBreadcrumbs parentPathName={"Books"} parentPath={"/books"} childPathName={data.book.title} />
             <br></br>
             <SingleBookDescription bookInfo={books} />

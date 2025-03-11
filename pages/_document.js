@@ -1,5 +1,5 @@
 import { Html, Head, Main, NextScript } from "next/document";
-import ResponsiveAppBar from "@/components/ResponsiveAppBar";
+import ResponsiveAppBar from "@/components/layout/ResponsiveAppBar";
 
 
 export default function Document() {

@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
-import SingleBookPage from '@/components/SingleBookPage'
-import ClientOnly from "@/components/ClientOnly";
+import SingleBookPage from '@/components/books/SingleBookPage'
+import ClientOnly from "@/components/common/ClientOnly";
 import LoadAuthors from "@/pages/authors/LoadAuthors";
 import useAuthorStore from '@/store/authorStore';
 

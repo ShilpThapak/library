@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
-import SingleAuthorPage from '@/components/SingleAuthorPage'
-import ClientOnly from "@/components/ClientOnly";
+import SingleAuthorPage from '@/components/authors/SingleAuthorPage'
+import ClientOnly from "@/components/common/ClientOnly";
 
 export default function Page() {
     const router = useRouter()
