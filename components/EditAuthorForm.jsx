@@ -22,6 +22,7 @@ const GET_AUTHOR_QUERY = gql`
 const EDIT_AUTHOR_MUTATION = gql`
     mutation EditAuthor($editAuthorId: ID!, $edits: EditAuthorInput) {
         editAuthor(id: $editAuthorId, edits: $edits) {
+            id
             name
         }
     }
