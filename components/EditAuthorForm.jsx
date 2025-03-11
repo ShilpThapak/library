@@ -6,6 +6,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
+import useAuthorStore from "@/store/authorStore";
 
 
 const GET_AUTHOR_QUERY = gql`
@@ -27,14 +28,23 @@ const EDIT_AUTHOR_MUTATION = gql`
 `;
 
 export default function EditAuthorForm({ handleClose }) {
+    const { updateAuthorInCache } = useAuthorStore();
+    const router = useRouter()
+    const authorID = router.query.slug
 
     const [editAuthor, 
         { data: editAuthorData, loading: editAuthorLoading, error: editAuthorError }
-    ] = useMutation(EDIT_AUTHOR_MUTATION, {onCompleted: () => {handleClose()}});
+    ] = useMutation(
+        EDIT_AUTHOR_MUTATION, 
+        {
+            onCompleted: (data) => {
+                updateAuthorInCache(authorID, data.editAuthor);
+                handleClose()
+            }
+        }
+    );
     
-
-    const router = useRouter()
-    const authorID = router.query.slug
+    
     const { data: authorData,
         loading: authorLoading,
         error: authorError } = useQuery(GET_AUTHOR_QUERY, {variables: {"authorId": authorID}});

@@ -4,17 +4,31 @@ import { gql, useMutation } from "@apollo/client";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import useAuthorStore from "@/store/authorStore";
 
 const ADD_AUTHOR_MUTATION = gql`
     mutation AddAuthor($author: AddAuthorInput!) {
         addAuthor(author: $author) {
+            id
             name
         }
     }
 `;
 
 export default function CreateAuthorForm({ handleClose }) {
-    const [addAuthor, { loading, error }] = useMutation(ADD_AUTHOR_MUTATION, {onCompleted: () => {handleClose()}});
+    const { addAuthorToCache } = useAuthorStore();
+
+    const [addAuthor, { data, loading, error }] = useMutation(
+        ADD_AUTHOR_MUTATION, 
+        {
+            onCompleted: (data) => { 
+                console.log(data, addAuthor); 
+                addAuthorToCache({ id: data.addAuthor.id, name: data.addAuthor.name });
+                handleClose();
+            }
+        }
+    );
+
 
     const [name, setName] = useState("")
     const [bio, setBio] = useState("")
